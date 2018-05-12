@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <html>
 <head>
-    <!-- Bootstrap core CSS -->
+<!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
@@ -18,19 +18,19 @@
 
     <!-- Custom styles for this template -->
     <link href="css/creative.min.css" rel="stylesheet">
-    
-    
+
+
 <meta charset="utf-8">
 <meta name="Viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta http-equiv="X-ua-compatible" content="ie=edge">
-<title>ANYTIME CONSULT</title>
+<title>Anytime Consult</title>
 <link href="/webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/styles.css" rel="stylesheet">
 <script src="https://oss.maxcdn.com/html5.shiv/3.7.2/html5.shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <style type="text/css">
 body{
-	padding-top: 50px;
+ padding-top: 150px;
 }
 
 .starter-template{
@@ -97,8 +97,7 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/Popular_Consultants">Popular Consultants</a></li>
-            <li><a href="/Consultants">Consultants</a></li>
+            <li class="active"><a href="/Consultants">Consultants</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
@@ -108,9 +107,28 @@ body{
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="container">
+
+
+
+
+    <section class="bg-primary" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">You are done.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#messagings">Click Here</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="messagings">
+      <div class="container">
+            <div class="container">
     <div class="starter-template">
-    <h1>ANYTIME CONSULT</h1>
+    <h1>Anytime Consult</h1>
     <p class="lead">Booking is being done....</p>
     </div>
    <sql:setDataSource
@@ -142,12 +160,11 @@ body{
 	Session sessionn = Session.getDefaultInstance(props,
 		new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("abhishekumarmandal@gmail.com","FDFD765634532FDSDF@#$$");
+				return new PasswordAuthentication("swarnaprava.sethi@gmail.com","ilovemyparents@4595");
 			}
 		});
 	String s1=session.getAttribute("email").toString();
-	
-
+	session.setAttribute("messaging", "Welcome!!!...."); 
 	try {
 
 		Message message = new MimeMessage(sessionn);
@@ -155,7 +172,7 @@ body{
 		message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(s1));
 		message.setSubject("Appointment Details");
-		message.setText("Congratulation! Your appointment with Dr."+ request.getParameter("name")+" is fixed, "/*+request.getParameter("timing")*/ +
+		message.setText("Congratulation! Your appointment with Consultant "+ request.getParameter("name")+" is fixed at " +request.getParameter("timing")+
 				"\n\n See you soon, Thanking You!");
 		session.setAttribute("dname",request.getParameter("name"));
 		session.setAttribute("tname",request.getParameter("timing"));
@@ -166,7 +183,8 @@ body{
 	} catch (MessagingException e) {
 		throw new RuntimeException(e);
 	}
-	/*
+	
+ 
 	String driverName = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/Project_db";
 	String user = "root";
@@ -174,14 +192,41 @@ body{
 	
 	Connection con = null;
 	PreparedStatement ps = null;
+	PreparedStatement ps1 = null;
 	try
 	{
 	Class.forName(driverName);
 	con = DriverManager.getConnection(url, user, dbpsw);
-	String sql="update Doctors set counter=2 where name=? and timing=?";
-	ps = con.prepareStatement(sql);
-	String name = session.getAttribute("dname").toString();
+
 	String timing = session.getAttribute("tname").toString();
+	String sql1 = "select counter from Doctors where timing='"+timing+"'";
+	//ps1 = con.prepareStatement(sql1);
+	String name = session.getAttribute("dname").toString();
+	//ps1.setString(1,timing);
+	 
+	Statement statement = con.createStatement();
+	ResultSet result = statement.executeQuery(sql1);
+	 
+	int count = 0;
+	 int fullname=0;
+	while (result.next()){
+		if(count<=1){
+	    fullname = result.getInt("counter");
+	    //out.println(fullname);
+	    count++;
+		}
+	}
+	
+	//String sql1="select counter from Doctors where timing=?";
+	//ps1 = con.prepareStatement(sql1);
+	
+	//String j = ps1.executeQuery();
+	//out.println(j);
+	
+	String sql="update Doctors set counter='"+(fullname+1)+"' where timing=?";
+	ps = con.prepareStatement(sql);
+	
+	ps.setString(1,timing);
 	int i = ps.executeUpdate();
 	}
 	catch(SQLException sql)
@@ -189,40 +234,10 @@ body{
 	request.setAttribute("error", sql);
 	out.println(sql);
 	}
-	*/
    %>
 </div>
-
-
-    <header class="masthead text-center text-white d-flex">
-      <div class="container my-auto">
-        <div class="row">
-          <div class="col-lg-10 mx-auto">
-            <h1 class="text-uppercase">
-              <strong>ANYTIME CONSULT</strong>
-            </h1>
-            <hr>
-          </div>
-          <div class="col-lg-8 mx-auto">
-            <p class="text-faded mb-5">You can get your valuable tips and advices anytime whenever you want.</p>
-            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
-          </div>
-        </div>
       </div>
-    </header>
-
-    <section class="bg-primary" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading text-white">We've got what you need!</h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">You can get your valuable tips and advices anytime whenever you want.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
     <section id="services">
       <div class="container">
@@ -271,7 +286,7 @@ body{
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
+            <a class="portfolio-box" href="/fitness">
               <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -286,7 +301,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
+            <a class="portfolio-box" href="/exercise">
               <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -300,7 +315,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
+            <a class="portfolio-box" href="/education">
               <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -315,7 +330,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
+            <a class="portfolio-box" href="/business">
               <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -330,7 +345,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
+            <a class="portfolio-box" href="/health">
               <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -345,7 +360,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
+            <a class="portfolio-box" href="/slim">
               <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -381,7 +396,7 @@ body{
           <div class="col-lg-4 mr-auto text-center">
             <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
             <p>
-              <a href="mailto:your-b114051@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
+              <a href="mailto:your-b114022@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
             </p>
           </div>
         </div>

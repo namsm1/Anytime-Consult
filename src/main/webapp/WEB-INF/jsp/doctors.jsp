@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<%@ page import = "java.io.*,java.util.*,java.sql.*,javax.mail.Message,java.util.Properties,javax.mail.MessagingException,javax.mail.PasswordAuthentication,javax.mail.Session,javax.mail.Transport,javax.mail.internet.InternetAddress,javax.mail.internet.MimeMessage"%>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <html>
+<%
+if(session.getAttribute("name")==null){
+	response.sendRedirect("/login");
+}
+%>
 <head>
- <!-- Bootstrap core CSS -->
+
+    <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
@@ -20,6 +26,7 @@
     <link href="css/creative.min.css" rel="stylesheet">
 
 
+
 <meta charset="utf-8">
 <meta name="Viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta http-equiv="X-ua-compatible" content="ie=edge">
@@ -31,7 +38,11 @@
       <style type="text/css">
 
 body{
-  padding-top: 150px;
+   padding-top: 150px;
+}
+
+#checkings{
+   padding-top: 50px;   
 }
 
 .starter-template{
@@ -78,9 +89,42 @@ body{
 	margin-top: 100px;
 }	
 </style>
-      
+       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+  <style type="text/css">
+      body {
+    font-family: ProximaNovaReg, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h3 {
+    color: #bb3794;
+}
+a {
+    text-decoration: none; 
+}
+
+a, a:visited {
+    color: rgb(84, 180, 210);
+}
+
+a:hover {
+    color: rgb(51,159,192);
+}
+
+th {
+    text-align: left;
+}
+
+td, th {
+  padding-right: 20px;
+}
+
+  </style>
 </head>
 <body>
+
+<div id="content-placeholder">
+</div>
 <script type="text/javascript" src="/webjars/jquery/2.1.4/jquery.min.js"></script>
       <script type="text/javascript" src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       
@@ -98,7 +142,7 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/Consultants">Consultants</a></li>
+           <li class="active"><a href="/Consultants">Consultants</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
@@ -108,6 +152,7 @@ body{
         </div><!--/.nav-collapse -->
       </div>
     </div>
+   
 
 
 
@@ -118,143 +163,61 @@ body{
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
             <hr class="light my-4">
-            <p class="text-faded mb-4">You can visit the Consultants tab to proceed ahead.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#logins">Processing Your Credentials</a>
+            <p class="text-faded mb-4">These are the best suited consultants for your needs.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#checkings">Click Here!</a>
           </div>
         </div>
       </div>
     </section>
 
-<section id="logins">
+    <section id="checkings">
       <div class="container">
-            <div class="container">
+        <script type="text/javascript">
+      // This code depends on jQuery Core and Handlebars.js 
+
+var api_key = '50740f5574824c39b47dc88a2b405c19'; // Get your API key at developer.betterdoctor.com
+
+var resource_url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + api_key;
+
+
+
+$.get(resource_url, function (data) {
+    // data: { meta: {<metadata>}, data: {<array[Practice]>} }
+    var template = Handlebars.compile(document.getElementById('docs-template').innerHTML);
+    document.getElementById('checkings').innerHTML = template(data);
+});
+  </script>
+         <div class="container">
     <div class="starter-template">
-    <h1>Anytime Consult</h1>
     <p class="lead"></p>
     </div>
-   <sql:setDataSource
-        var="myDS"
-        driver="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/Project_db"
-        user="root" password=""
-    />
-   <sql:query var="listUsers"   dataSource="${myDS}">
-        SELECT * FROM Persons;
-    </sql:query>
-        <%
-        //out.println(request.getParameter("name"));
-        %>
-        <br>
-        <%
-        //out.println(request.getParameter("timing")); 
-        %>
+  <p><script id="docs-template" type="text/x-handlebars-template">
+    <table class="table table-hover">
+        <thead>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Picture</th>
+        </thead>
+        <tbody>
+        {{#data}}
+        <tr>
+            <td>{{profile.first_name}} {{profile.last_name}}<br>
+              <img src="{{ratings.0.image_url_small}}"></img></td>
+            <td>Consultants</td>
+            <td><img src="{{profile.image_url}}"></img></td>
+            <td><a href="/slot?name={{profile.first_name}} {{profile.last_name}}">BOOK</a></td>
+        </tr>
+        {{/data}}
+        </tbody>
+    </table>
+</script>
+</p>            
+   
 </div>
-<%! String userdbName;
-String userEmail;
-String userdbPsw; 
-%>
-<%
-Connection con= null;
-PreparedStatement ps = null;
-ResultSet rs = null;
-
-String driverName = "com.mysql.jdbc.Driver";
-String url = "jdbc:mysql://localhost:3306/Project_db";
-String user = "root";
-String dbpsw = "";
-
-String sql = "select * from Persons where email=? and password=?";
-
-String email = request.getParameter("email");
-String password = request.getParameter("password");
-
-if((!(email.equals("") || password.equals("")) ))
-{
-try{
-Class.forName(driverName);
-con = DriverManager.getConnection(url, user, dbpsw);
-ps = con.prepareStatement(sql);
-ps.setString(1, email);
-ps.setString(2, password);
-rs = ps.executeQuery();
-if(rs.next())
-{ 
-userdbName = rs.getString("firstname");
-userEmail = rs.getString("email");
-userdbPsw = rs.getString("password");
-if(email.equals(userEmail) && password.equals(userdbPsw))
-{
-session.setAttribute("name",userdbName);
-session.setAttribute("email",userEmail);
-session.setAttribute("password",userdbPsw);
-} 
-out.println("<h1>Welcome : "+session.getAttribute("name")+"</h1>"); 
-}
-else
-//response.sendRedirect("error.jsp");
-rs.close();
-ps.close(); 
-}
-catch(SQLException sqe)
-{
-out.println(sqe);
-} 
-}
-else
-{
-%>
-<center><p style="color:red">Error In Login</p></center>
-<% 
-//getServletContext().getRequestDispatcher("/home.jsp").include(request, response);
-}
-%>
       </div>
       </section>
 
-    <section id="services">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 text-center">
-            <h2 class="section-heading">At Your Service</h2>
-            <hr class="my-4">
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-diamond text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Superb Consultants</h3>
-              <p class="text-muted mb-0">These are the PRO SERVICE at our end to make you feel better</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-paper-plane text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Ready to Consult</h3>
-              <p class="text-muted mb-0">This is the best thing to transform your life!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-newspaper-o text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Up to Date</h3>
-              <p class="text-muted mb-0">We update services to keep things fresh.</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 text-center">
-            <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-heart text-primary mb-3 sr-icons"></i>
-              <h3 class="mb-3">Made with Love</h3>
-              <p class="text-muted mb-0">You have to greet your thoughts with love these days!</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-       <section class="p-0" id="portfolio">
+   <section class="p-0" id="portfolio">
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">

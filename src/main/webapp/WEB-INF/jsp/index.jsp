@@ -31,9 +31,7 @@
 <script src="https://oss.maxcdn.com/html5.shiv/3.7.2/html5.shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <style type="text/css">
-body{
-	padding-top: 50px;
-}
+
 
 .starter-template{
 	padding: 40px 15px;
@@ -99,7 +97,6 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="/Popular_Consultants">Popular Consultants</a></li>
             <li><a href="/Consultants">Consultants</a></li>
           </ul>
           
@@ -197,7 +194,7 @@ body{
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
+            <a class="portfolio-box" href="/fitness">
               <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -212,7 +209,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
+            <a class="portfolio-box" href="/exercise">
               <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -226,7 +223,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
+            <a class="portfolio-box" href="/education">
               <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -241,7 +238,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
+            <a class="portfolio-box" href="/business">
               <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -256,7 +253,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
+            <a class="portfolio-box" href="/health">
               <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -271,7 +268,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
+            <a class="portfolio-box" href="/slim">
               <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -307,7 +304,7 @@ body{
           <div class="col-lg-4 mr-auto text-center">
             <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
             <p>
-              <a href="mailto:your-b114051@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
+              <a href="mailto:your-b114022@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
             </p>
           </div>
         </div>

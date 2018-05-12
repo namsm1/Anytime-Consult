@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <html>
 <head>
-<!-- Bootstrap core CSS -->
+ <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
@@ -20,7 +20,6 @@
     <link href="css/creative.min.css" rel="stylesheet">
 
 
-
 <meta charset="utf-8">
 <meta name="Viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta http-equiv="X-ua-compatible" content="ie=edge">
@@ -31,7 +30,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <style type="text/css">
 body{
-	padding-top: 50px;
+   padding-top: 150px;
 }
 
 .starter-template{
@@ -98,8 +97,7 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li><a href="/">Home</a></li>
-            <li><a href="/Popular_Consultants">Popular Consultants</a></li>
-            <li><a href="/Consultants">Consultants</a></li>
+            <li class="active"><a href="/Consultants">Consultants</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
@@ -109,7 +107,24 @@ body{
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="container" id="bright">
+     
+    
+    <section class="bg-primary" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">Login now to avail the facility.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#logging">Login</a>
+          </div>
+        </div>
+      </div>
+    </section>
+       <section id="logging">
+      <div class="container">
+        <div class="row">
+          <div class="container" id="bright">
     
     <div class="starter-template">
     <h1>Anytime Consult</h1>
@@ -130,40 +145,10 @@ body{
     </div>
     
     </form>
-    </div>   
-    
-    
-    
-    <header class="masthead text-center text-white d-flex">
-      <div class="container my-auto">
-        <div class="row">
-          <div class="col-lg-10 mx-auto">
-            <h1 class="text-uppercase">
-              <strong>ANYTIME CONSULT</strong>
-            </h1>
-            <hr>
-          </div>
-          <div class="col-lg-8 mx-auto">
-            <p class="text-faded mb-5">You can get your valuable tips and advices anytime whenever you want.</p>
-            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
-          </div>
+    </div>
         </div>
       </div>
-    </header>
-
-    <section class="bg-primary" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading text-white">We've got what you need!</h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">You can get your valuable tips and advices anytime whenever you want.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
+      </section>
     <section id="services">
       <div class="container">
         <div class="row">
@@ -206,12 +191,11 @@ body{
         </div>
       </div>
     </section>
-
-    <section class="p-0" id="portfolio">
+        <section class="p-0" id="portfolio">
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
+            <a class="portfolio-box" href="/fitness">
               <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -226,7 +210,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
+            <a class="portfolio-box" href="/exercise">
               <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -240,7 +224,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
+            <a class="portfolio-box" href="/education">
               <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -255,7 +239,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
+            <a class="portfolio-box" href="/business">
               <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -270,7 +254,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
+            <a class="portfolio-box" href="/health">
               <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -285,7 +269,7 @@ body{
             </a>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
+            <a class="portfolio-box" href="/slim">
               <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
@@ -321,7 +305,7 @@ body{
           <div class="col-lg-4 mr-auto text-center">
             <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
             <p>
-              <a href="mailto:your-b114051@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
+              <a href="mailto:your-b114022@iiit-bh.ac.in">b114022@iiit-bh.ac.in</a>
             </p>
           </div>
         </div>

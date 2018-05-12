@@ -20,6 +20,7 @@
     <link href="css/creative.min.css" rel="stylesheet">
 
 
+
 <meta charset="utf-8">
 <meta name="Viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta http-equiv="X-ua-compatible" content="ie=edge">
@@ -29,7 +30,6 @@
 <script src="https://oss.maxcdn.com/html5.shiv/3.7.2/html5.shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <style type="text/css">
-
 body{
   padding-top: 150px;
 }
@@ -80,7 +80,7 @@ body{
 </style>
       
 </head>
-<body>
+<body> 
 <script type="text/javascript" src="/webjars/jquery/2.1.4/jquery.min.js"></script>
       <script type="text/javascript" src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       
@@ -98,7 +98,7 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/Consultants">Consultants</a></li>
+           <li class="active"><a href="/Consultants">Consultants</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
@@ -118,96 +118,80 @@ body{
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
             <hr class="light my-4">
-            <p class="text-faded mb-4">You can visit the Consultants tab to proceed ahead.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#logins">Processing Your Credentials</a>
+            <p class="text-faded mb-4">More try ,more success.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#processings">PROCESSING</a>
           </div>
         </div>
       </div>
     </section>
 
-<section id="logins">
+    <section id="processings">
       <div class="container">
-            <div class="container">
+           <div class="container">
     <div class="starter-template">
     <h1>Anytime Consult</h1>
-    <p class="lead"></p>
+    <p class="lead">Booking is being done....</p>
     </div>
-   <sql:setDataSource
-        var="myDS"
-        driver="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/Project_db"
-        user="root" password=""
-    />
-   <sql:query var="listUsers"   dataSource="${myDS}">
-        SELECT * FROM Persons;
-    </sql:query>
-        <%
-        //out.println(request.getParameter("name"));
-        %>
-        <br>
-        <%
-        //out.println(request.getParameter("timing")); 
-        %>
+       <% 
+       session.setAttribute("dname",request.getParameter("name"));
+		session.setAttribute("tname",request.getParameter("timing"));
+	String driverName = "com.mysql.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/Project_db";
+	String user = "root";
+	String dbpsw = "";
+	
+	Connection con = null;
+	PreparedStatement ps = null;
+	PreparedStatement ps1 = null;
+	try
+	{
+	Class.forName(driverName);
+	con = DriverManager.getConnection(url, user, dbpsw);
+
+	String timing = session.getAttribute("tname").toString();
+	String sql1 = "select counter from fitness where timing='"+timing+"'";
+	//ps1 = con.prepareStatement(sql1);
+	String name = session.getAttribute("dname").toString();
+	//ps1.setString(1,timing);
+	 
+	Statement statement = con.createStatement();
+	ResultSet result = statement.executeQuery(sql1);
+	 
+	int count = 0;
+	 int fullname=0;
+	while (result.next()){
+		if(count<=1){
+	    fullname = result.getInt("counter");
+	    //out.println(fullname);
+	    count++;
+		}
+	}
+	
+	//String sql1="select counter from Doctors where timing=?";
+	//ps1 = con.prepareStatement(sql1);
+	
+	//String j = ps1.executeQuery();
+	//out.println(j);
+	if(fullname==3){
+		//session.setAttribute("messaging", "");
+	
+		
+		//response.sendRedirect("/doctors");
+		%>
+		<script type="text/javascript">alert("This Slot is filled up. Kindly Choose another Slot");window.location.href="/fitness";</script>
+		<%
+		 
+	}
+	
+	}
+	catch(SQLException sql)
+	{
+	request.setAttribute("error", sql);
+	out.println(sql);
+	}
+   %>
+   <a href="/book?name=<%=request.getParameter("name") %>&timing=<%=session.getAttribute("tname").toString() %>"><h1>BOOK</h1></h1></a>
 </div>
-<%! String userdbName;
-String userEmail;
-String userdbPsw; 
-%>
-<%
-Connection con= null;
-PreparedStatement ps = null;
-ResultSet rs = null;
-
-String driverName = "com.mysql.jdbc.Driver";
-String url = "jdbc:mysql://localhost:3306/Project_db";
-String user = "root";
-String dbpsw = "";
-
-String sql = "select * from Persons where email=? and password=?";
-
-String email = request.getParameter("email");
-String password = request.getParameter("password");
-
-if((!(email.equals("") || password.equals("")) ))
-{
-try{
-Class.forName(driverName);
-con = DriverManager.getConnection(url, user, dbpsw);
-ps = con.prepareStatement(sql);
-ps.setString(1, email);
-ps.setString(2, password);
-rs = ps.executeQuery();
-if(rs.next())
-{ 
-userdbName = rs.getString("firstname");
-userEmail = rs.getString("email");
-userdbPsw = rs.getString("password");
-if(email.equals(userEmail) && password.equals(userdbPsw))
-{
-session.setAttribute("name",userdbName);
-session.setAttribute("email",userEmail);
-session.setAttribute("password",userdbPsw);
-} 
-out.println("<h1>Welcome : "+session.getAttribute("name")+"</h1>"); 
-}
-else
-//response.sendRedirect("error.jsp");
-rs.close();
-ps.close(); 
-}
-catch(SQLException sqe)
-{
-out.println(sqe);
-} 
-}
-else
-{
-%>
-<center><p style="color:red">Error In Login</p></center>
-<% 
-//getServletContext().getRequestDispatcher("/home.jsp").include(request, response);
-}
-%>
       </div>
       </section>
 

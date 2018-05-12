@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<%@ page import = "java.io.*,java.util.*,java.sql.*,javax.mail.Message,java.util.Properties,javax.mail.MessagingException,javax.mail.PasswordAuthentication,javax.mail.Session,javax.mail.Transport,javax.mail.internet.InternetAddress,javax.mail.internet.MimeMessage"%>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <html>
+<%
+if(session.getAttribute("name")==null){
+	response.sendRedirect("/login");
+}
+%>
 <head>
  <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +23,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/creative.min.css" rel="stylesheet">
+
 
 
 <meta charset="utf-8">
@@ -98,7 +104,7 @@ body{
         <div id="navbar" class="collapse navbar-collapse ">
           <ul class="nav navbar-nav" id="bright">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/Consultants">Consultants</a></li>
+          <li class="active"><a href="/Consultants">Consultants</a></li>
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
@@ -110,104 +116,59 @@ body{
     </div>
 
 
-
-
     <section class="bg-primary" id="about">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
             <hr class="light my-4">
-            <p class="text-faded mb-4">You can visit the Consultants tab to proceed ahead.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#logins">Processing Your Credentials</a>
+            <p class="text-faded mb-4">Your are almost done.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#slott">Choose SLOTS</a>
           </div>
         </div>
       </div>
     </section>
 
-<section id="logins">
+        <section id="slott">
       <div class="container">
             <div class="container">
     <div class="starter-template">
     <h1>Anytime Consult</h1>
     <p class="lead"></p>
     </div>
+  <h2>List Of Consultants</h2>
+  <p>Click on the BOOK button to confirm your appointment</p>            
+
    <sql:setDataSource
         var="myDS"
         driver="com.mysql.jdbc.Driver"
         url="jdbc:mysql://localhost:3306/Project_db"
         user="root" password=""
     />
-   <sql:query var="listUsers"   dataSource="${myDS}">
-        SELECT * FROM Persons;
+     <%
+     String s=request.getParameter("name");
+     %>
+    <sql:query var="listUsers"   dataSource="${myDS}">
+        SELECT * FROM Doctors;
     </sql:query>
-        <%
-        //out.println(request.getParameter("name"));
-        %>
-        <br>
-        <%
-        //out.println(request.getParameter("timing")); 
-        %>
+        <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Timing</th>
+                <th>Appointment Book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="user" items="${listUsers.rows}">
+                <tr>
+                    <td><c:out value="${user.timing}" /></td>
+                    <td><a href="/validate?name=<%=s %>&timing=${user.timing}">BOOK</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+   
 </div>
-<%! String userdbName;
-String userEmail;
-String userdbPsw; 
-%>
-<%
-Connection con= null;
-PreparedStatement ps = null;
-ResultSet rs = null;
-
-String driverName = "com.mysql.jdbc.Driver";
-String url = "jdbc:mysql://localhost:3306/Project_db";
-String user = "root";
-String dbpsw = "";
-
-String sql = "select * from Persons where email=? and password=?";
-
-String email = request.getParameter("email");
-String password = request.getParameter("password");
-
-if((!(email.equals("") || password.equals("")) ))
-{
-try{
-Class.forName(driverName);
-con = DriverManager.getConnection(url, user, dbpsw);
-ps = con.prepareStatement(sql);
-ps.setString(1, email);
-ps.setString(2, password);
-rs = ps.executeQuery();
-if(rs.next())
-{ 
-userdbName = rs.getString("firstname");
-userEmail = rs.getString("email");
-userdbPsw = rs.getString("password");
-if(email.equals(userEmail) && password.equals(userdbPsw))
-{
-session.setAttribute("name",userdbName);
-session.setAttribute("email",userEmail);
-session.setAttribute("password",userdbPsw);
-} 
-out.println("<h1>Welcome : "+session.getAttribute("name")+"</h1>"); 
-}
-else
-//response.sendRedirect("error.jsp");
-rs.close();
-ps.close(); 
-}
-catch(SQLException sqe)
-{
-out.println(sqe);
-} 
-}
-else
-{
-%>
-<center><p style="color:red">Error In Login</p></center>
-<% 
-//getServletContext().getRequestDispatcher("/home.jsp").include(request, response);
-}
-%>
       </div>
       </section>
 
@@ -254,7 +215,7 @@ else
       </div>
     </section>
 
-       <section class="p-0" id="portfolio">
+        <section class="p-0" id="portfolio">
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<%@ page import = "java.io.*,java.util.*,java.sql.*,javax.mail.Message,java.util.Properties,javax.mail.MessagingException,javax.mail.PasswordAuthentication,javax.mail.Session,javax.mail.Transport,javax.mail.internet.InternetAddress,javax.mail.internet.MimeMessage"%>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
 <html>
+<%
+if(session.getAttribute("name")==null){
+	response.sendRedirect("/login");
+}
+%>
 <head>
  <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +25,7 @@
     <link href="css/creative.min.css" rel="stylesheet">
 
 
+
 <meta charset="utf-8">
 <meta name="Viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta http-equiv="X-ua-compatible" content="ie=edge">
@@ -29,9 +35,8 @@
 <script src="https://oss.maxcdn.com/html5.shiv/3.7.2/html5.shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <style type="text/css">
-
 body{
-  padding-top: 150px;
+	padding-top: 50px;
 }
 
 .starter-template{
@@ -108,108 +113,76 @@ body{
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-
-
-
-    <section class="bg-primary" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading text-white"><<<...ANYTIME CONSULT...>>></h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">You can visit the Consultants tab to proceed ahead.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#logins">Processing Your Credentials</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-<section id="logins">
-      <div class="container">
-            <div class="container">
+    <div class="container">
     <div class="starter-template">
     <h1>Anytime Consult</h1>
     <p class="lead"></p>
     </div>
+  <h2>List Of Consultants</h2>
+  <p>Click on the BOOK button to confirm your appointment</p>            
+
    <sql:setDataSource
         var="myDS"
         driver="com.mysql.jdbc.Driver"
         url="jdbc:mysql://localhost:3306/Project_db"
         user="root" password=""
     />
-   <sql:query var="listUsers"   dataSource="${myDS}">
-        SELECT * FROM Persons;
+     
+    <sql:query var="listUsers"   dataSource="${myDS}">
+        SELECT * FROM business;
     </sql:query>
-        <%
-        //out.println(request.getParameter("name"));
-        %>
-        <br>
-        <%
-        //out.println(request.getParameter("timing")); 
-        %>
+        <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Timing</th>
+                <th>Appointment Book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="user" items="${listUsers.rows}">
+                <tr>
+                    <td><c:out value="${user.name}" /></td>
+                    <td><c:out value="${user.timing}" /></td>
+                    <td><li><a href="/validate_business?name=${user.name}&timing=${user.timing}">BOOK</a></li></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+   
 </div>
-<%! String userdbName;
-String userEmail;
-String userdbPsw; 
-%>
-<%
-Connection con= null;
-PreparedStatement ps = null;
-ResultSet rs = null;
 
-String driverName = "com.mysql.jdbc.Driver";
-String url = "jdbc:mysql://localhost:3306/Project_db";
-String user = "root";
-String dbpsw = "";
 
-String sql = "select * from Persons where email=? and password=?";
 
-String email = request.getParameter("email");
-String password = request.getParameter("password");
-
-if((!(email.equals("") || password.equals("")) ))
-{
-try{
-Class.forName(driverName);
-con = DriverManager.getConnection(url, user, dbpsw);
-ps = con.prepareStatement(sql);
-ps.setString(1, email);
-ps.setString(2, password);
-rs = ps.executeQuery();
-if(rs.next())
-{ 
-userdbName = rs.getString("firstname");
-userEmail = rs.getString("email");
-userdbPsw = rs.getString("password");
-if(email.equals(userEmail) && password.equals(userdbPsw))
-{
-session.setAttribute("name",userdbName);
-session.setAttribute("email",userEmail);
-session.setAttribute("password",userdbPsw);
-} 
-out.println("<h1>Welcome : "+session.getAttribute("name")+"</h1>"); 
-}
-else
-//response.sendRedirect("error.jsp");
-rs.close();
-ps.close(); 
-}
-catch(SQLException sqe)
-{
-out.println(sqe);
-} 
-}
-else
-{
-%>
-<center><p style="color:red">Error In Login</p></center>
-<% 
-//getServletContext().getRequestDispatcher("/home.jsp").include(request, response);
-}
-%>
+<header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>ANYTIME CONSULT</strong>
+            </h1>
+            <hr>
+          </div>
+          <div class="col-lg-8 mx-auto">
+            <p class="text-faded mb-5">You can get your valuable tips and advices anytime whenever you want.</p>
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+          </div>
+        </div>
       </div>
-      </section>
+    </header>
+
+    <section class="bg-primary" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white">We've got what you need!</h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">You can get your valuable tips and advices anytime whenever you want.</p>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section id="services">
       <div class="container">
@@ -254,7 +227,7 @@ else
       </div>
     </section>
 
-       <section class="p-0" id="portfolio">
+    <section class="p-0" id="portfolio">
       <div class="container-fluid p-0">
         <div class="row no-gutters popup-gallery">
           <div class="col-lg-4 col-sm-6">
