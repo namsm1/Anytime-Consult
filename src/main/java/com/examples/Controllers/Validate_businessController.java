@@ -2,12 +2,11 @@ package com.example.Controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 @Controller
-public class SurgeonController {
+public class Validate_businessController {
 
-	@RequestMapping("/surgeons")
-	public String surgeonPage() {
-		return "surgeon";
+	@RequestMapping("/validate_business")
+	public String validate_businessMethod() {
+		return "validate_business";
 	}
 }

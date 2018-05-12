@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class SurgeonController {
+public class BookValidationController {
 
-	@RequestMapping("/surgeons")
-	public String surgeonPage() {
-		return "surgeon";
+	@RequestMapping("/validate")
+	public String validatorPage() {
+		return "validate";
 	}
 }

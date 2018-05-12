@@ -8,6 +8,6 @@ public class physicianController {
 
 	@RequestMapping("/Popular_Consultants")
 	public String physicianPage() {
-		return "popular_consultants";
+		return "physician";
 	}
 }
